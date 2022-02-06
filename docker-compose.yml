@@ -10,9 +10,9 @@ services:
       - myst
       - proxy_n
     ports:
-      - '127.0.0.1:4449:4449'
+      - '192.168.44.1:4449:4449'
       - '59850-60000:59850-60000/udp'
-    container_name: myst
+    container_name: it2-myst
     cap_add:
       - NET_ADMIN
     volumes:
@@ -52,7 +52,7 @@ services:
 
 # monitoring
   uptime-mon:
-    container_name: uptime-mon
+    container_name: uptime
     image: louislam/uptime-kuma:latest
     restart: unless-stopped
     networks: # port 3001
@@ -63,7 +63,7 @@ services:
 # wireguard services
   wg-gen-web:
     image: vx3r/wg-gen-web:latest
-    container_name: wg-ui
+    container_name: vpn
     restart: unless-stopped
     networks: # port 8080
       - proxy_wg
@@ -75,7 +75,7 @@ services:
     #image: james/wg-api:latest
     build:
       context: ./wg-api
-    container_name: wg-api
+    container_name: vpn-api
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
