@@ -52,7 +52,7 @@ services:
     restart: unless-stopped
 
 # monitoring
-  uptime-mon:
+  uptime:
     container_name: uptime
     image: louislam/uptime-kuma:latest
     restart: unless-stopped
@@ -61,7 +61,7 @@ services:
     volumes:
       - /etc/uptime-kuma:/app/data
     depends_on:
-      - node
+      - it2
 
 # wireguard services
   wg-gen-web:
