@@ -100,7 +100,7 @@ services:
 
     
 networks:
-  myst_net:
+  myst:
     name: myst
     driver: bridge
   proxy_n:
