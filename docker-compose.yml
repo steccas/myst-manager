@@ -47,7 +47,8 @@ services:
       - 443:443/tcp
       - 80:80/tcp
     depends_on:
-      - heimdall
+      - dashboard
+      - node
     restart: unless-stopped
 
 # monitoring
@@ -59,6 +60,8 @@ services:
       - proxy_m
     volumes:
       - /etc/uptime-kuma:/app/data
+    depends_on:
+      - node
 
 # wireguard services
   wg-gen-web:
@@ -70,6 +73,8 @@ services:
     env_file: ./envs/.env_wg_gen_web
     volumes:
       - /etc/wireguard:/data
+    depends_on:
+      - wg-json-api
 
   wg-json-api:
     #image: james/wg-api:latest
