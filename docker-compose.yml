@@ -77,9 +77,9 @@ services:
       - wg-json-api
 
   wg-json-api:
-    #image: james/wg-api:latest
-    build:
-      context: ./wg-api
+    image: james/wg-api:latest
+    #build:
+    #  context: ./wg-api
     container_name: vpn-api
     restart: unless-stopped
     cap_add:
