@@ -6,6 +6,8 @@ chmod 740 ./envs
 apt update
 apt install wireguard
 wg genkey | sudo tee /etc/wireguard/private.key
+chmod go= /etc/wireguard/private.key
+sudo cat /etc/wireguard/private.key | wg pubkey | sudo tee /etc/wireguard/public.key
 nano /etc/sysctl.conf
 sysctl -p
 
