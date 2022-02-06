@@ -10,7 +10,7 @@ services:
       - myst
       - proxy_n
     ports:
-      - '192.168.44.1:4449:4449'
+#      - '192.168.44.1:4449:4449' # change this to your VPN IP
       - '59850-60000:59850-60000/udp'
     container_name: it2-myst
     cap_add:
