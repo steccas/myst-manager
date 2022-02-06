@@ -1,5 +1,6 @@
 #!/bin/bash
 chmod -R 640 ./envs
+chmod 740 ./envs
 
 # WG
 apt update
