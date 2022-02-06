@@ -1,0 +1,63 @@
+version: '3'
+services:
+  node:
+    image: mysteriumnetwork/myst:latest
+    command:
+      - '--udp.ports=59850:60000'
+      - 'service --agreed-terms-and-conditions'
+    networks:
+      - myst
+      - proxy
+    ports:
+      - '127.0.0.1:4449:4449'
+      - '59850-60000:59850-60000/udp'
+    container_name: myst
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - '/var/lib/mysterium-node:/var/lib/mysterium-node'
+      - '/etc/mysterium-node:/etc/mysterium-node'
+    restart: unless-stopped
+  dashboard:
+    image: lscr.io/linuxserver/heimdall
+    container_name: dashboard
+    env_file: ./envs/.env_dashboard
+    networks:
+      - proxy
+    volumes:
+      - /etc/heimdall:/config
+    restart: unless-stopped
+  proxy:
+    image: ghcr.io/linuxserver/swag:latest
+    container_name: proxy
+    cap_add:
+      - NET_ADMIN
+    env_file: ./envs/.env_proxy
+    networks:
+      - proxy
+    volumes:
+      - /etc/swag:/config
+    ports:
+      - 443:443
+      - 80:80
+    depends_on:
+      - heimdall
+    restart: unless-stopped
+  uptime-mon:
+    container_name: uptime-mon
+    image: louislam/uptime-kuma:latest
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - /etc/uptime-kuma:/app/data
+#    ports:
+#      - "80:3001"
+    
+networks:
+  myst_net:
+    name: myst
+    driver: bridge
+  proxy:
+    name: proxy
+    driver: bridge   
