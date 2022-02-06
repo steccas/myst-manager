@@ -12,7 +12,7 @@ services:
     ports:
 #      - '192.168.44.1:4449:4449' # change this to your VPN IP
       - '59850-60000:59850-60000/udp'
-    container_name: it2-myst
+    container_name: it2-myst # change this as you wish
     cap_add:
       - NET_ADMIN
     volumes:
