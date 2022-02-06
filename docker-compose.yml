@@ -48,7 +48,7 @@ services:
       - 80:80/tcp
     depends_on:
       - dashboard
-      - node
+      - it2
     restart: unless-stopped
 
 # monitoring
@@ -90,6 +90,7 @@ services:
 # Watchtower
   watchtower:
     image: containrrr/watchtower
+    container_name: watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
