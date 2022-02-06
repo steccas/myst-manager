@@ -1,5 +1,6 @@
 version: '3'
 services:
+# core
   node:
     image: mysteriumnetwork/myst:latest
     command:
@@ -7,7 +8,7 @@ services:
       - 'service --agreed-terms-and-conditions'
     networks:
       - myst
-      - proxy
+      - proxy_n
     ports:
       - '127.0.0.1:4449:4449'
       - '59850-60000:59850-60000/udp'
@@ -18,15 +19,17 @@ services:
       - '/var/lib/mysterium-node:/var/lib/mysterium-node'
       - '/etc/mysterium-node:/etc/mysterium-node'
     restart: unless-stopped
+
   dashboard:
     image: lscr.io/linuxserver/heimdall
     container_name: dashboard
     env_file: ./envs/.env_dashboard
     networks:
-      - proxy
+      - proxy_d
     volumes:
       - /etc/heimdall:/config
     restart: unless-stopped
+
   proxy:
     image: ghcr.io/linuxserver/swag:latest
     container_name: proxy
@@ -34,7 +37,10 @@ services:
       - NET_ADMIN
     env_file: ./envs/.env_proxy
     networks:
-      - proxy
+      - proxy_n
+      - proxy_m
+      - proxy_d
+      - proxy_wg
     volumes:
       - /etc/swag:/config
     ports:
@@ -43,21 +49,57 @@ services:
     depends_on:
       - heimdall
     restart: unless-stopped
+
+# monitoring
   uptime-mon:
     container_name: uptime-mon
     image: louislam/uptime-kuma:latest
     restart: unless-stopped
-    networks:
-      - proxy
+    networks: # port 3001
+      - proxy_m
     volumes:
       - /etc/uptime-kuma:/app/data
-#    ports:
-#      - "80:3001"
+
+# wireguard services
+  wg-gen-web:
+    image: vx3r/wg-gen-web:latest
+    container_name: wg-ui
+    restart: unless-stopped
+    networks: # port 8080
+      - proxy_wg
+    env_file: ./envs/.env_wg_gen_web
+    volumes:
+      - /etc/wireguard:/data
+
+  wg-json-api:
+    #image: james/wg-api:latest
+    build:
+      context: ./wg-api
+    container_name: wg-api
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
+    command: wg-api --device wg0 --listen 172.17.0.1:8182
+
+# DNS
+
+# Security
+
     
 networks:
   myst_net:
     name: myst
     driver: bridge
-  proxy:
-    name: proxy
-    driver: bridge   
+  proxy_n:
+    name: proxy_n
+    driver: bridge
+  proxy_m:
+    name: proxy_m
+    driver: bridge
+  proxy_d:
+    name: proxy_d
+    driver: bridge 
+  proxy_wg:
+    name: proxy_wg
+    driver: bridge 
