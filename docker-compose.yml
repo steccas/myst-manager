@@ -71,7 +71,9 @@ services:
     ports:
       - '127.0.0.1:8080:8080' # enable only for initial vpn configs via ssh tunnel
     networks: # port 8080
-      - proxy_wg
+      man_vpn:
+        ipv4_address: 172.31.0.3
+      proxy_wg:
     env_file: ./envs/.env_wg_gen_web
     volumes:
       - /etc/wireguard:/data
@@ -106,6 +108,11 @@ networks:
   myst:
     name: myst
     driver: bridge
+  man_vpn:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24
   proxy_n:
     name: proxy_n
     driver: bridge
