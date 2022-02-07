@@ -10,7 +10,7 @@ services:
       - myst
       - proxy_n
     ports:
-      - '0.0.0.0:4449:4449' # change this to your VPN IP
+      - '0.0.0.0:4449:4449' # didn't manage to proxy this / so it's protected via zero trust
       - '59850-60000:59850-60000/udp'
     container_name: it2 # change this as you wish
     cap_add:
