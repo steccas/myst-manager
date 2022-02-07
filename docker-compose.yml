@@ -8,9 +8,8 @@ services:
       - 'service --agreed-terms-and-conditions'
     networks:
       - myst
-      - proxy_n
     ports:
-      - '0.0.0.0:4449:4449' # didn't manage to proxy this / so it's protected via zero trust
+      - '127.0.0.1:4449:4449' # didn't manage to proxy this / so it's accesible only from another manager or ssh
       - '59850-60000:59850-60000/udp'
     container_name: it2 # change this as you wish
     cap_add:
@@ -37,7 +36,7 @@ services:
       - NET_ADMIN
     env_file: ./envs/.env_proxy
     networks:
-      - proxy_n
+#      - proxy_n
       - proxy_m
       - proxy_d
       - proxy_wg
@@ -69,8 +68,8 @@ services:
   wg-gen-web:
     image: vx3r/wg-gen-web:latest
     container_name: vpn
-    ports:
-      - '127.0.0.1:8080:8080' # change this to your VPN IP
+#    ports:
+#      - '127.0.0.1:8080:8080' # change this to your VPN IP
     networks: # port 8080
       - proxy_wg
     env_file: ./envs/.env_wg_gen_web
