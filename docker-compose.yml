@@ -68,8 +68,8 @@ services:
   wg-gen-web:
     image: vx3r/wg-gen-web:latest
     container_name: vpn
-#    ports:
-#      - '127.0.0.1:8080:8080' # change this to your VPN IP
+    ports:
+      - '127.0.0.1:8080:8080' # enable only for initial vpn configs via ssh tunnel
     networks: # port 8080
       - proxy_wg
     env_file: ./envs/.env_wg_gen_web
