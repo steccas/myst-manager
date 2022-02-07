@@ -9,7 +9,7 @@ services:
     networks:
       - myst
     ports:
-#      - '192.168.44.1:4449:4449' # didn't manage to proxy this / so it's accesible only from another manager or ssh
+      - '192.168.44.1:4449:4449' # didn't manage to proxy this / so it's accesible only from another manager or ssh
       - '59850-60000:59850-60000/udp'
     container_name: it2 # change this as you wish
     cap_add:
@@ -68,8 +68,8 @@ services:
   wg-gen-web:
     image: vx3r/wg-gen-web:latest
     container_name: vpn
-    ports:
-      - '127.0.0.1:8080:8080' # enable only for initial vpn configs via ssh tunnel
+#    ports:
+#      - '127.0.0.1:8080:8080' # enable only for initial vpn configs via ssh tunnel
     networks: # port 8080
       man_vpn:
         ipv4_address: 172.31.0.3
