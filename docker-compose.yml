@@ -46,6 +46,8 @@ services:
     ports:
       - 443:443/tcp
       - 80:80/tcp
+    extra_hosts:
+      - "host.docker.internal:192.168.44.1"
     depends_on:
       - dashboard
       - it2
