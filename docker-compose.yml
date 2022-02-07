@@ -9,7 +9,7 @@ services:
     networks:
       - myst
     ports:
-      - '192.168.44.1:4449:4449' # didn't manage to proxy this / so it's accesible only from another manager or ssh
+#      - '192.168.44.1:4449:4449' # didn't manage to proxy this / so it's accesible only from another manager or ssh
       - '59850-60000:59850-60000/udp'
     container_name: it2 # change this as you wish
     cap_add:
