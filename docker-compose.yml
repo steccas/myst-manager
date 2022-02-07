@@ -10,7 +10,7 @@ services:
       - myst
       - proxy_n
     ports:
-      - '192.168.44.1:4449:4449' # change this to your VPN IP
+      - '127.0.0.1:4449:4449' # change this to your VPN IP
       - '59850-60000:59850-60000/udp'
     container_name: it2 # change this as you wish
     cap_add:
@@ -47,7 +47,7 @@ services:
       - 443:443/tcp
       - 80:80/tcp
     extra_hosts:
-      - "host.docker.internal:192.168.44.1"
+      - "host.docker.internal:host-gateway"
     depends_on:
       - dashboard
       - it2
