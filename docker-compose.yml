@@ -9,7 +9,7 @@ services:
     networks:
       - myst
     ports:
-      - '192.168.44.1:4449:4449' # didn't manage to proxy this / so it's accesible only from another manager or ssh
+      - "${WG_IFACE_IP}:4449:4449/tcp" # didn't manage to proxy this / so it's accesible only from another manager or ssh
       - '59850-60000:59850-60000/udp'
     container_name: it2 # change this as you wish
     cap_add:
@@ -43,8 +43,8 @@ services:
     volumes:
       - /etc/swag:/config
     ports:
-      - 192.168.44.1:443:443/tcp
-      - 192.168.44.1:80:80/tcp
+      - ${WG_IFACE_IP}:443:443/tcp
+      - ${WG_IFACE_IP}:80:80/tcp
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -89,7 +89,7 @@ services:
     cap_add:
       - NET_ADMIN
     network_mode: "host"
-    command: wg-api --device wg0 --listen 172.31.0.1:8182
+    command: wg-api --device wg0 --listen 172.17.0.1:8182
 
 # Watchtower
   watchtower:
@@ -116,6 +116,11 @@ networks:
   proxy_n:
     name: proxy_n
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.16.0/16
+    driver_opts:
+      com.docker.network.bridge.name: br_proxy_d
   proxy_m:
     name: proxy_m
     driver: bridge
