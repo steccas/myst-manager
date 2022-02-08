@@ -36,7 +36,6 @@ services:
       - NET_ADMIN
     env_file: ./envs/.env_proxy
     networks:
-#      - proxy_n
       - proxy_m
       - proxy_d
       - proxy_wg
@@ -116,9 +115,6 @@ networks:
         - subnet: 172.31.0.0/24
     driver_opts:
       com.docker.network.bridge.name: br_myst_wg_ui
-  proxy_n:
-    name: proxy_n
-    driver: bridge
   proxy_m:
     name: proxy_m
     driver: bridge
