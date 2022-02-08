@@ -48,7 +48,7 @@ services:
       - "host.docker.internal:host-gateway"
     depends_on:
       - dashboard
-      - it2
+      - myst_node
     restart: unless-stopped
 
 # monitoring
@@ -61,7 +61,7 @@ services:
     volumes:
       - /etc/uptime-kuma:/app/data
     depends_on:
-      - it2
+      - myst_node
 
 # wireguard services
   wg-gen-web:
@@ -78,6 +78,7 @@ services:
       - /etc/wireguard:/data
     depends_on:
       - wg-json-api
+    restart: unless-stopped
 
   wg-json-api:
     image: james/wg-api:latest
