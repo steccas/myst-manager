@@ -1,7 +1,7 @@
 version: '3'
 services:
 # core
-  it2:
+  myst_node:
     image: mysteriumnetwork/myst:latest
     command:
       - '--udp.ports=59850:60000'
@@ -11,7 +11,7 @@ services:
     ports:
       - "${WG_IFACE_IP}:4449:4449/tcp" # didn't manage to proxy this / so it's accesible only from another manager or ssh
       - '59850-60000:59850-60000/udp'
-    container_name: it2 # change this as you wish
+    container_name: myst_node # change this as you wish
     cap_add:
       - NET_ADMIN
     volumes:
