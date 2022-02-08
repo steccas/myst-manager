@@ -109,24 +109,27 @@ networks:
     name: myst
     driver: bridge
   man_vpn:
+    name: myst_man_wg_ui_bridge
     driver: bridge
     ipam:
       config:
         - subnet: 172.31.0.0/24
+    driver_opts:
+      com.docker.network.bridge.name: br_myst_wg_ui
   proxy_n:
     name: proxy_n
     driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.16.0/16
-    driver_opts:
-      com.docker.network.bridge.name: br_proxy_d
   proxy_m:
     name: proxy_m
     driver: bridge
   proxy_d:
     name: proxy_d
-    driver: bridge 
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.16.0/16
+    driver_opts:
+      com.docker.network.bridge.name: br_myst_proxy_d
   proxy_wg:
     name: proxy_wg
     driver: bridge 
