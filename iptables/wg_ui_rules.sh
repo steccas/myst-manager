@@ -14,6 +14,11 @@ $IPT -I INPUT 1 -p tcp -s $S_IP --dst $D_IP --dport $D_PORT -j ACCEPT
 $IPT -I FORWARD 1 -i $IN_FACE -o $BR_FACE -j ACCEPT
 $IPT -I FORWARD 1 -i $BR_FACE -o $IN_FACE -j ACCEPT
 
+S_IP="172.31.0.5"
+D_PORT="8184"
+
+$IPT -I INPUT 1 -p tcp -s $S_IP --dst $D_IP --dport $D_PORT -j ACCEPT
+
 ## IPv6 (Uncomment) ##
 ## $IPT6 -t nat -I POSTROUTING 1 -s $S_IP_6 -o $IN_FACE -j MASQUERADE
 ## $IPT6 -I INPUT 1 -i $BR_FACE -j ACCEPT

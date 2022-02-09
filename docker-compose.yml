@@ -64,32 +64,57 @@ services:
       - myst_node
 
 # wireguard services
-  wg-gen-web:
+  wg-gen-web-mg:
     image: vx3r/wg-gen-web:latest
-    container_name: vpn
+    container_name: vpn-mg
 #    ports:
 #      - '127.0.0.1:8080:8080' # enable only for initial vpn configs via ssh tunnel
     networks: # port 8080
       man_vpn:
         ipv4_address: 172.31.0.3
       proxy_wg:
-    env_file: ./envs/.env_wg_gen_web
+    env_file: ./envs/.env_wg_gen_web_mg
     volumes:
       - /etc/wireguard:/data
     depends_on:
-      - wg-json-api
+      - wg-json-api-mg
     restart: unless-stopped
 
-  wg-json-api:
+  wg-json-api-mg:
     image: james/wg-api:latest
     #build:
     #  context: ./wg-api
-    container_name: vpn-api
+    container_name: vpn-api-mg
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
     network_mode: "host"
     command: wg-api --device wg0 --listen 172.17.0.1:8182
+  
+  wg-gen-web-nodes:
+    image: vx3r/wg-gen-web:latest
+    container_name: vpn-nodes
+#    ports:
+#      - '127.0.0.1:8080:8080' # enable only for initial vpn configs via ssh tunnel
+    networks: # port 8080
+      man_vpn:
+        ipv4_address: 172.31.0.5
+      proxy_wg:
+    env_file: ./envs/.env_wg_gen_web_nodes
+    volumes:
+      - /etc/wireguard:/data
+    depends_on:
+      - wg-json-api-nodes
+    restart: unless-stopped
+
+  wg-json-api-nodes:
+    image: james/wg-api:latest
+    container_name: vpn-api-nodes
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
+    command: wg-api --device wg1 --listen 172.17.0.1:8184
 
 # Watchtower
   watchtower:
