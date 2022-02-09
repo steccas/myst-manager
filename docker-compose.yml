@@ -124,7 +124,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.16.0/16
+        - subnet: 192.168.16.0/24
     driver_opts:
       com.docker.network.bridge.name: br_myst_proxy_d
   proxy_wg:
