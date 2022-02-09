@@ -102,7 +102,7 @@ services:
       proxy_wg:
     env_file: ./envs/.env_wg_gen_web_nodes
     volumes:
-      - /etc/wireguard:/data
+      - /etc/wireguard/nodes:/data
     depends_on:
       - wg-json-api-nodes
     restart: unless-stopped
